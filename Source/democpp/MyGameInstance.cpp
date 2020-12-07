@@ -5,13 +5,7 @@
 #include "HAL/PlatformFileManager.h"
 #include "GenericPlatformFile.h"
 #include "HAL/FileManager.h"
-
-#include "yasio/platform/yasio_ue4.hpp"
-using namespace NS_SLUA;
-#include "yasio/bindings/lyasio.cpp"
-
-DECLARE_LOG_CATEGORY_EXTERN(yasio_ue4, Log, All);
-DEFINE_LOG_CATEGORY(yasio_ue4);
+#include "yasio_uelua.h"
 
 // read file content
 static uint8* ReadFile(IPlatformFile& PlatformFile, FString path, uint32& len) {
@@ -85,12 +79,7 @@ void UMyGameInstance::LuaStateInitCallback()
 	lua_pushcfunction(L, PrintLog);
 	lua_setglobal(L, "PrintLog");
 
-	print_fn2_t log_cb = [](int level, const char* msg) {
-		FString text(msg);
-		const TCHAR* tstr = *text;
-		UE_LOG(yasio_ue4, Log, L"%s", tstr);
-	};
-	io_service::init_globals(log_cb);
-
-	luaregister_yasio(L);
+	// register yasio lua module to ue4, then you can use yasio as follow
+    // local yasio = require 'yasio'
+	yasio_uelua_init(L);
 }
