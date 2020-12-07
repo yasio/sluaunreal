@@ -15,6 +15,9 @@ public class democpp : ModuleRules
 
         PublicIncludePaths.Add(Path.Combine(ThirdPartyPath));
 
+        
+        PrivateDependencyModuleNames.AddRange(new string[] { "OpenSSL" });
+
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Http" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "slua_unreal", "slua_profile", "Slate", "SlateCore", "UMG", "Http" });
