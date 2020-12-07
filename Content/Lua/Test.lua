@@ -61,13 +61,20 @@ function testcase()
 end
 
 local tt=0
+
+local yasio_update = require 'example'
+local yasio_test_done = false
 function update(dt)
     tt=tt+dt
+    if not yasio_test_done then
+        yasio_test_done = yasio_update(dt)
+    end
     
     TestActor.update(tt,gactor)
     TestArray.update(tt)
     TestMap.update(tt)
     TestBp:update(tt)
+    -- yasio_tick(tt)
 
     -- test weak ptr is alive?
     if slua.isValid(weakptr) then

@@ -10,6 +10,9 @@
 using namespace NS_SLUA;
 #include "yasio/bindings/lyasio.cpp"
 
+DECLARE_LOG_CATEGORY_EXTERN(yasio_ue4, Log, All);
+DEFINE_LOG_CATEGORY(yasio_ue4);
+
 // read file content
 static uint8* ReadFile(IPlatformFile& PlatformFile, FString path, uint32& len) {
 	IFileHandle* FileHandle = PlatformFile.OpenRead(*path);
@@ -81,6 +84,13 @@ void UMyGameInstance::LuaStateInitCallback()
 	NS_SLUA::lua_State *L = state.getLuaState();
 	lua_pushcfunction(L, PrintLog);
 	lua_setglobal(L, "PrintLog");
+
+	print_fn2_t log_cb = [](int level, const char* msg) {
+		FString text(msg);
+		const TCHAR* tstr = *text;
+		UE_LOG(yasio_ue4, Log, L"%s", tstr);
+	};
+	io_service::init_globals(log_cb);
 
 	luaregister_yasio(L);
 }
