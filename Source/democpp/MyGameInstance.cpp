@@ -6,7 +6,9 @@
 #include "GenericPlatformFile.h"
 #include "HAL/FileManager.h"
 
-
+#include "yasio/platform/yasio_ue4.hpp"
+using namespace NS_SLUA;
+#include "yasio/bindings/lyasio.cpp"
 
 // read file content
 static uint8* ReadFile(IPlatformFile& PlatformFile, FString path, uint32& len) {
@@ -79,4 +81,6 @@ void UMyGameInstance::LuaStateInitCallback()
 	NS_SLUA::lua_State *L = state.getLuaState();
 	lua_pushcfunction(L, PrintLog);
 	lua_setglobal(L, "PrintLog");
+
+	luaregister_yasio(L);
 }
