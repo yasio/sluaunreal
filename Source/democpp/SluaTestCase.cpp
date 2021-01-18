@@ -303,7 +303,9 @@ namespace NS_SLUA {
 		DefLuaMethod(SetVerb, &IHttpRequest::SetVerb)
 		DefLuaMethod(ProcessRequest, &IHttpRequest::ProcessRequest)
 		DefLuaMethod(SetURL, &IHttpRequest::SetURL)
+#if ENGINE_MINOR_VERSION < 26
 		DefLuaMethod(SetContent, &IHttpRequest::SetContent)
+#endif
 		DefLuaMethod(OnRequestProgress, &IHttpRequest::OnRequestProgress)
 		DefLuaMethod(OnProcessRequestComplete, &IHttpRequest::OnProcessRequestComplete)
 #if (ENGINE_MINOR_VERSION>=20) && (ENGINE_MAJOR_VERSION>=4)
